@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nexora — The Future of Smarter Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          background: "hsl(var(--background))",
+          foreground: "hsl(var(--foreground))",
+          border: "hsl(var(--border))",
+          ring: "hsl(var(--ring))",
+          primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
+          secondary: { DEFAULT: "hsl(var(--secondary))", foreground: "hsl(var(--secondary-foreground))" },
+          muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
+          accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
+        },
+        borderRadius: { lg: "var(--radius)", md: "calc(var(--radius) - 2px)", sm: "calc(var(--radius) - 4px)" },
+        fontFamily: { display: "var(--font-display)", body: "var(--font-body)" },
+        boxShadow: { dashboard: "var(--shadow-dashboard)" },
+      },
+    },
+  };
+</script>
+<style>
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 210 14% 17%;
+    --primary: 210 14% 17%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 184 5% 55%;
+    --accent: 239 84% 67%;
+    --accent-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --ring: 239 84% 67%;
+    --radius: 0.5rem;
+    --font-display: 'Instrument Serif', serif;
+    --font-body: 'Inter', sans-serif;
+    --shadow-dashboard: 0 25px 80px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
+  body { margin: 0; font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(var(--fu, 16px)); } to { opacity: 1; transform: translateY(0); } }
+  .fu { opacity: 0; animation: fadeUp var(--dur, .6s) cubic-bezier(.16,1,.3,1) forwards; animation-delay: var(--delay, 0s); }
+</style>
+</head>
+<body class="bg-background text-foreground">
+  <div class="h-screen flex flex-col bg-background overflow-hidden">
+    <!-- Navbar -->
+    <nav class="relative z-20 flex items-center justify-between px-6 md:px-12 lg:px-20 py-5 font-body">
+      <div class="text-xl font-semibold tracking-tight text-foreground">✦ Nexora</div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Home</a>
+        <a href="#" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
+        <a href="#" class="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
+        <a href="#" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</a>
+      </div>
+      <button class="rounded-full px-5 h-10 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">Get Started</button>
+    </nav>
+
+    <!-- Hero -->
+    <section class="relative flex-1 overflow-hidden">
+      <video class="absolute inset-0 z-0 h-full w-full object-cover" autoplay muted loop playsinline
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_015952_e1deeb12-8fb7-4071-a42a-60779fc64ab6.mp4"></video>
+
+      <div class="relative z-10 flex w-full flex-col items-center px-6 pt-10">
+        <!-- Badge -->
+        <div class="fu mb-6 inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-4 py-1.5 text-sm text-muted-foreground font-body" style="--fu:10px;--dur:.5s;--delay:0s">
+          Now with GPT-5 support ✨
+        </div>
+
+        <!-- Headline -->
+        <h1 class="fu text-center font-display text-5xl md:text-6xl lg:text-[5rem] leading-[0.95] tracking-tight text-foreground max-w-xl" style="--delay:.1s">
+          The Future of <span class="font-display italic">Smarter</span> Automation
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="fu mt-4 text-center text-base md:text-lg text-muted-foreground max-w-[650px] leading-relaxed font-body" style="--delay:.2s">
+          Automate your busywork with intelligent agents that learn, adapt, and execute—so your team can focus on what matters most.
+        </p>
+
+        <!-- CTA buttons -->
+        <div class="fu mt-5 flex items-center gap-3" style="--delay:.3s">
+          <button class="rounded-full px-6 py-5 text-sm font-medium font-body bg-primary text-primary-foreground hover:bg-primary/90 transition-colors inline-flex items-center">Book a demo</button>
+          <button class="h-11 w-11 rounded-full border-0 bg-background shadow-[0_2px_12px_rgba(0,0,0,0.08)] hover:bg-background/80 transition-colors inline-flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="hsl(var(--foreground))" stroke="hsl(var(--foreground))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+          </button>
+        </div>
+
+        <!-- Dashboard preview -->
+        <div class="fu mt-8 w-full max-w-5xl" style="--fu:30px;--dur:.8s;--delay:.5s">
+          <div class="rounded-2xl overflow-hidden p-3 md:p-4" style="background:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.5);box-shadow:var(--shadow-dashboard)">
+            <div class="text-[11px] select-none pointer-events-none rounded-xl overflow-hidden bg-background border border-border">
+              <!-- Top bar -->
+              <div class="flex items-center justify-between gap-3 border-b border-border px-3 py-2">
+                <div class="flex items-center gap-2">
+                  <div class="flex h-5 w-5 items-center justify-center rounded-md bg-foreground text-[10px] font-semibold text-background">N</div>
+                  <span class="font-semibold text-foreground">Nexora</span>
+                  <svg class="h-3 w-3 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="hidden sm:flex flex-1 max-w-xs items-center gap-2 rounded-md border border-border bg-secondary/50 px-2 py-1 text-muted-foreground">
+                  <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                  <span class="flex-1">Search</span>
+                  <span class="rounded border border-border bg-background px-1 text-[9px]">⌘K</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="rounded-md bg-foreground px-2 py-1 text-[10px] font-medium text-background">Move Money</div>
+                  <svg class="h-3.5 w-3.5 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+                  <div class="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[9px] font-semibold text-accent-foreground">JB</div>
+                </div>
+              </div>
+
+              <div class="flex">
+                <!-- Sidebar -->
+                <div class="w-40 shrink-0 border-r border-border px-2 py-3">
+                  <div class="space-y-0.5">
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 bg-secondary text-foreground font-medium"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-foreground/70"></span><span class="flex-1">Home</span></div>
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-muted-foreground/40"></span><span class="flex-1">Tasks</span><span class="rounded-full bg-foreground px-1.5 text-[9px] text-background">10</span></div>
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-muted-foreground/40"></span><span class="flex-1">Transactions</span></div>
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-muted-foreground/40"></span><span class="flex-1">Payments</span><svg class="h-3 w-3 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-muted-foreground/40"></span><span class="flex-1">Cards</span></div>
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-muted-foreground/40"></span><span class="flex-1">Capital</span></div>
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-muted-foreground/40"></span><span class="flex-1">Accounts</span><svg class="h-3 w-3 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
+                  </div>
+                  <div class="mt-4 px-2 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground/70">Workflows</div>
+                  <div class="mt-1 space-y-0.5">
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-muted-foreground/40"></span><span>Trake rutes</span></div>
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-muted-foreground/40"></span><span>Payments</span></div>
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-muted-foreground/40"></span><span>Notifications</span></div>
+                    <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground"><span class="inline-block h-3.5 w-3.5 rounded-sm bg-muted-foreground/40"></span><span>Settings</span></div>
+                  </div>
+                </div>
+
+                <!-- Main content -->
+                <div class="flex-1 bg-secondary/30 p-4">
+                  <div class="text-sm font-semibold text-foreground">Welcome, Jane</div>
+                  <div class="mt-3 flex flex-wrap items-center gap-2">
+                    <div class="rounded-full px-3 py-1 text-[10px] font-medium bg-accent text-accent-foreground">Send</div>
+                    <div class="rounded-full px-3 py-1 text-[10px] font-medium border border-border bg-background text-foreground">Request</div>
+                    <div class="rounded-full px-3 py-1 text-[10px] font-medium border border-border bg-background text-foreground">Transfer</div>
+                    <div class="rounded-full px-3 py-1 text-[10px] font-medium border border-border bg-background text-foreground">Deposit</div>
+                    <div class="rounded-full px-3 py-1 text-[10px] font-medium border border-border bg-background text-foreground">Pay Bill</div>
+                    <div class="rounded-full px-3 py-1 text-[10px] font-medium border border-border bg-background text-foreground">Create Invoice</div>
+                    <span class="text-[10px] text-muted-foreground">Customize</span>
+                  </div>
+
+                  <div class="mt-4 flex gap-3">
+                    <!-- Balance card -->
+                    <div class="flex-1 basis-0 rounded-xl border border-border bg-background p-3">
+                      <div class="flex items-center gap-1.5 text-muted-foreground">
+                        <span>Mercury Balance</span>
+                        <svg class="h-3 w-3 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      </div>
+                      <div class="mt-1 text-lg font-semibold text-foreground">$8,450,190<span class="text-xs text-muted-foreground">.32</span></div>
+                      <div class="mt-1 flex items-center gap-3 text-[10px]">
+                        <span class="text-muted-foreground">Last 30 Days</span>
+                        <span class="text-green-600">+$1.8M</span>
+                        <span class="text-red-500">-$900K</span>
+                      </div>
+                      <div class="mt-2">
+                        <svg viewBox="0 0 320 80" preserveAspectRatio="none" class="h-20 w-full">
+                          <defs><linearGradient id="balanceFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="hsl(var(--accent))" stop-opacity="0.15"></stop><stop offset="100%" stop-color="hsl(var(--accent))" stop-opacity="0"></stop></linearGradient></defs>
+                          <path d="M0,60 C40,58 60,30 100,34 C140,38 160,52 200,40 C240,28 260,10 320,18 L320,80 L0,80 Z" fill="url(#balanceFill)"></path>
+                          <path d="M0,60 C40,58 60,30 100,34 C140,38 160,52 200,40 C240,28 260,10 320,18" fill="none" stroke="hsl(var(--accent))" stroke-width="1.5" stroke-linecap="round"></path>
+                        </svg>
+                      </div>
+                    </div>
+
+                    <!-- Accounts card -->
+                    <div class="flex-1 basis-0 rounded-xl border border-border bg-background p-3">
+                      <div class="flex items-center justify-between">
+                        <span class="font-medium text-foreground">Accounts</span>
+                        <div class="flex items-center gap-2 text-muted-foreground">
+                          <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                          <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                        </div>
+                      </div>
+                      <div class="mt-1">
+                        <div class="flex items-center justify-between py-3 text-xs"><span class="text-muted-foreground">Credit</span><span class="font-medium text-foreground">$98,125.50</span></div>
+                        <div class="flex items-center justify-between py-3 text-xs"><span class="text-muted-foreground">Treasury</span><span class="font-medium text-foreground">$6,750,200.00</span></div>
+                        <div class="flex items-center justify-between py-3 text-xs"><span class="text-muted-foreground">Operations</span><span class="font-medium text-foreground">$1,592,864.82</span></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Transactions table -->
+                  <div class="mt-4 rounded-xl border border-border bg-background p-3">
+                    <div class="font-medium text-foreground">Recent Transactions</div>
+                    <table class="mt-2 w-full text-left text-[10px]">
+                      <thead>
+                        <tr class="text-muted-foreground">
+                          <th class="pb-2 font-normal">Date</th>
+                          <th class="pb-2 font-normal">Description</th>
+                          <th class="pb-2 font-normal text-right">Amount</th>
+                          <th class="pb-2 font-normal text-right">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="border-t border-border"><td class="py-2 text-muted-foreground">Aug 21</td><td class="py-2 text-foreground">AWS</td><td class="py-2 text-right font-medium text-foreground">-$5,200</td><td class="py-2 text-right"><span class="inline-flex items-center gap-1 text-amber-500"><span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>Pending</span></td></tr>
+                        <tr class="border-t border-border"><td class="py-2 text-muted-foreground">Aug 20</td><td class="py-2 text-foreground">Client Payment</td><td class="py-2 text-right font-medium text-green-600">+$125,000</td><td class="py-2 text-right"><span class="inline-flex items-center gap-1 text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>Completed</span></td></tr>
+                        <tr class="border-t border-border"><td class="py-2 text-muted-foreground">Aug 19</td><td class="py-2 text-foreground">Payroll</td><td class="py-2 text-right font-medium text-foreground">-$85,450</td><td class="py-2 text-right"><span class="inline-flex items-center gap-1 text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>Completed</span></td></tr>
+                        <tr class="border-t border-border"><td class="py-2 text-muted-foreground">Aug 18</td><td class="py-2 text-foreground">Office Supplies</td><td class="py-2 text-right font-medium text-foreground">-$1,200</td><td class="py-2 text-right"><span class="inline-flex items-center gap-1 text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>Completed</span></td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
