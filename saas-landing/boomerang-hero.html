@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Build Lasting Relationships</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://db.onlinewebfonts.com/c/9d4d074c9335825a23cce178ee03b498?family=P22+Mackinac+W01+Book" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ["Inter", "sans-serif"],
+          serif: ["P22 Mackinac W01 Book", "Georgia", "serif"],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html, body { margin: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #FFFFFF;
+    color: #191919;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useRef, useEffect } = React;
+
+const VIDEO_URL =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260715_090628_7052d8a6-a094-4341-a4a2-ad58493a67a9.mp4";
+
+const ArrowRight = ({ className }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+  </svg>
+);
+
+const Logo = ({ className }) => (
+  <svg className={className} viewBox="0 0 256 256" fill="currentColor">
+    <path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z" />
+  </svg>
+);
+
+function BoomerangVideoBg() {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const framesRef = useRef([]);
+  const seenTimesRef = useRef(new Set());
+  const [ready, setReady] = useState(false);
+
+  // Capture frames while the video plays once.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    let rafId = null;
+    let stopped = false;
+
+    const MAX_W = 960;
+
+    const captureFrame = () => {
+      if (stopped) return;
+      const vw = video.videoWidth;
+      const vh = video.videoHeight;
+      if (!vw || !vh) return;
+      const t = Math.round(video.currentTime * 1000);
+      if (seenTimesRef.current.has(t)) return;
+      seenTimesRef.current.add(t);
+
+      const w = Math.min(MAX_W, vw);
+      const h = Math.round((w / vw) * vh);
+      const off = document.createElement("canvas");
+      off.width = w;
+      off.height = h;
+      const ctx = off.getContext("2d");
+      ctx.drawImage(video, 0, 0, w, h);
+      framesRef.current.push(off);
+    };
+
+    const useRVFC = typeof video.requestVideoFrameCallback === "function";
+
+    const rvfcLoop = () => {
+      if (stopped) return;
+      captureFrame();
+      video.requestVideoFrameCallback(rvfcLoop);
+    };
+    const rafLoop = () => {
+      if (stopped) return;
+      captureFrame();
+      rafId = requestAnimationFrame(rafLoop);
+    };
+
+    const onLoaded = () => {
+      video.play().catch(() => {});
+      if (useRVFC) video.requestVideoFrameCallback(rvfcLoop);
+      else rafId = requestAnimationFrame(rafLoop);
+    };
+
+    const onEnded = () => {
+      stopped = true;
+      if (rafId) cancelAnimationFrame(rafId);
+      if (framesRef.current.length > 0) setReady(true);
+    };
+
+    video.addEventListener("loadeddata", onLoaded);
+    video.addEventListener("ended", onEnded);
+
+    return () => {
+      stopped = true;
+      if (rafId) cancelAnimationFrame(rafId);
+      video.removeEventListener("loadeddata", onLoaded);
+      video.removeEventListener("ended", onEnded);
+    };
+  }, []);
+
+  // Ping-pong canvas playback at 30fps once frames are ready.
+  useEffect(() => {
+    if (!ready) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const frames = framesRef.current;
+    if (!frames.length) return;
+
+    const ctx = canvas.getContext("2d");
+    const first = frames[0];
+    canvas.width = first.width;
+    canvas.height = first.height;
+
+    let idx = 0;
+    let dir = 1;
+    const interval = 1000 / 30;
+    let last = 0;
+    let rafId = null;
+
+    const draw = (ts) => {
+      rafId = requestAnimationFrame(draw);
+      if (ts - last < interval) return;
+      last = ts;
+      const f = frames[idx];
+      ctx.drawImage(f, 0, 0, canvas.width, canvas.height);
+      idx += dir;
+      if (idx >= frames.length - 1) { idx = frames.length - 1; dir = -1; }
+      else if (idx <= 0) { idx = 0; dir = 1; }
+    };
+    rafId = requestAnimationFrame(draw);
+
+    return () => { if (rafId) cancelAnimationFrame(rafId); };
+  }, [ready]);
+
+  return (
+    <div className="absolute inset-0 z-0">
+      <div className="scale-[1.15] origin-top overflow-hidden h-full w-full">
+        <video
+          ref={videoRef}
+          src={VIDEO_URL}
+          muted
+          playsInline
+          preload="auto"
+          crossOrigin="anonymous"
+          className="w-full h-full object-cover object-top"
+          style={{ display: ready ? "none" : "block" }}
+        />
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full object-cover object-top"
+          style={{ display: ready ? "block" : "none" }}
+        />
+      </div>
+    </div>
+  );
+}
+
+const NAV_LINKS = [
+  { label: "Product", href: "#product" },
+  { label: "Solutions", href: "#solutions" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "Company", href: "#company" },
+];
+
+const FEATURES = [
+  { num: "01", label: "Conversational" },
+  { num: "02", label: "Connected" },
+  { num: "03", label: "Compliant" },
+];
+
+function App() {
+  return (
+    <div className="min-h-screen bg-white overflow-x-hidden">
+      {/* Navbar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 sm:px-10 md:px-14 py-4 sm:py-5">
+        <div className="flex items-center gap-2.5">
+          <Logo className="w-6 h-6 text-[#191919]" />
+          <span className="font-semibold text-base tracking-tight text-[#191919]">Boomerang</span>
+        </div>
+
+        <div className="hidden md:flex items-center gap-8">
+          {NAV_LINKS.map((l) => (
+            <a key={l.label} href={l.href}
+              className="text-sm text-[#191919]/70 hover:text-[#191919] transition-colors duration-200">
+              {l.label}
+            </a>
+          ))}
+        </div>
+
+        <button className="px-5 py-2.5 bg-[#191919] text-white text-sm font-medium rounded-lg hover:bg-[#191919]/90 transition-colors duration-200">
+          Book A Demo
+        </button>
+      </nav>
+
+      {/* Hero */}
+      <section className="relative flex flex-col items-center overflow-hidden h-screen">
+        <BoomerangVideoBg />
+
+        {/* Hero copy */}
+        <div className="relative z-10 flex flex-col items-center text-center pt-24 sm:pt-26 md:pt-32 px-4 sm:px-6">
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] tracking-tighter text-[#191919] font-normal">
+            Build lasting<br />relationships.
+          </h1>
+          <p className="max-w-sm sm:max-w-md mt-5 sm:mt-6 md:mt-8 text-sm md:text-base text-[#191919]/70 leading-relaxed">
+            Conversational AI platform for modern financial institutions — agents that handle the full borrower lifecycle across email, SMS, and voice.
+          </p>
+          <button className="mt-6 sm:mt-8 md:mt-10 px-6 sm:px-8 py-3 sm:py-3.5 bg-[#191919] text-white text-sm font-medium rounded-lg hover:bg-[#191919]/90 transition-colors duration-200">
+            Book A Demo
+          </button>
+        </div>
+
+        {/* Bottom info panel */}
+        <div className="relative z-10 mt-auto w-full max-w-5xl px-4 sm:px-6">
+          <div className="bg-white/90 backdrop-blur-sm border border-gray-200 border-b-0 pt-8 sm:pt-12 md:pt-16 px-5 sm:px-8 md:px-12 pb-0 shadow-sm">
+            {/* Row 1 */}
+            <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-16">
+              <div>
+                <span className="text-[11px] uppercase tracking-[0.2em] text-[#191919]/50 font-medium">
+                  What do we do?
+                </span>
+                <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-serif font-normal leading-tight tracking-tight">
+                  Conversations that<br className="hidden sm:block" /> build momentum
+                </h2>
+              </div>
+              <div className="flex items-end">
+                <p className="text-sm md:text-[15px] text-[#191919]/70 leading-relaxed">
+                  Conversational AI built for regulated financial institutions. Agents that hold a real conversation, plug into the systems you run, and show their work.
+                </p>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="mt-6 sm:mt-8 md:mt-10 h-px bg-gray-200 w-full" />
+
+            {/* Row 2 */}
+            <div className="grid sm:grid-cols-3 gap-2 sm:gap-3 py-6">
+              {FEATURES.map((f) => (
+                <div key={f.num}
+                  className="group flex items-center justify-between bg-[#F4F3F3] hover:bg-[#eaeaea] transition-all duration-200 cursor-pointer px-4 sm:px-6 py-3.5 sm:py-4">
+                  <span className="text-sm">
+                    <span className="text-[#191919]/40">{f.num}</span>
+                    <span className="mx-2 text-[#191919]/30">/</span>
+                    <span className="font-medium">{f.label}</span>
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-700 group-hover:translate-x-0.5 transition-all duration-200" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
